@@ -1,0 +1,40 @@
+<aside class="pulse-sidebar">
+
+  <div class="pulse-widget">
+    <div class="pulse-widget__hd">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      <h3 class="pulse-widget__title">TRENDING NOW</h3>
+    </div>
+    {% for art in trending %}
+    <a href="{{ art.get_absolute_url }}" class="pulse-trending-item">
+      <span class="pulse-trending-item__num">{{ forloop.counter|stringformat:"02d" }}</span>
+      <span class="pulse-trending-item__title">{{ art.title|truncatewords:9 }}</span>
+    </a>
+    {% endfor %}
+  </div>
+
+  {% include 'blog/partials/ad_slot.html' with label="Medium Rectangle (300x250)" slot_id="sidebar-rect" slot_class="pulse-ad--rect" %}
+
+  <div class="pulse-widget pulse-widget--nl">
+    <h3 class="pulse-widget__nl-title">&#128140; DAILY PULSE</h3>
+    <p class="pulse-widget__nl-sub">Nigeria's top 5 stories in your inbox every morning.</p>
+    <form class="pulse-newsletter-form" method="post" action="{% url 'blog:newsletter' %}">
+      {% csrf_token %}
+      <input type="email" name="email" placeholder="your@email.com" required>
+      <button type="submit">SUBSCRIBE FREE</button>
+    </form>
+  </div>
+
+  <div class="pulse-widget">
+    <div class="pulse-widget__hd">
+      <h3 class="pulse-widget__title">CATEGORIES</h3>
+    </div>
+    {% for cat in all_categories %}
+    <a href="{{ cat.get_absolute_url }}" class="pulse-cat-item">
+      <span>{{ cat.icon }} {{ cat.name }}</span>
+      <span class="pulse-cat-item__count">{{ cat.articles.count }}</span>
+    </a>
+    {% endfor %}
+  </div>
+
+</aside>

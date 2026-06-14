@@ -1,0 +1,27 @@
+<header class="pulse-header">
+  <div class="pulse-header__inner">
+    <div class="pulse-header__left">
+      <a href="{% url 'blog:home' %}" class="pulse-logo">
+        <span class="pulse-logo__name">{{ SITE_NAME }}</span>
+        <span class="pulse-logo__tagline">{{ SITE_TAGLINE }}</span>
+      </a>
+      <nav class="pulse-nav">
+        <a href="{% url 'blog:home' %}#nigeria" class="pulse-nav__link">&#127469;&#127472; NAIJA</a>
+        <a href="{% url 'blog:home' %}#africa"  class="pulse-nav__link">&#127758; AFRICA</a>
+        <a href="{% url 'blog:home' %}#world"   class="pulse-nav__link">&#127760; WORLD</a>
+        {% for cat in all_categories|slice:":5" %}
+        <a href="{{ cat.get_absolute_url }}" class="pulse-nav__link">{{ cat.name|upper }}</a>
+        {% endfor %}
+      </nav>
+    </div>
+    <div class="pulse-header__actions">
+      <form class="pulse-search-form" action="{% url 'blog:search' %}" method="GET">
+        <div class="pulse-searchbox">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q|default:'' }}" autocomplete="off">
+        </div>
+      </form>
+      <button class="pulse-btn" onclick="document.querySelector('.pulse-newsletter-form input')?.focus()">SUBSCRIBE</button>
+    </div>
+  </div>
+</header>

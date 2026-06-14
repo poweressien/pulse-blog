@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}{% if query %}Search: "{{ query }}"{% else %}Search{% endif %} &mdash; {{ SITE_NAME }}{% endblock %}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block content %}
+<div class="pulse-container" style="padding:24px 18px">
+
+  <form class="pulse-search-bar" action="{% url 'blog:search' %}" method="GET">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search PULSE..." autofocus>
+    <button type="submit" class="pulse-btn">SEARCH</button>
+  </form>
+
+  {% if query %}
+    {% if articles %}
+      <p class="pulse-search-meta">{{ articles|length }} result{{ articles|length|pluralize }} for &ldquo;<strong>{{ query }}</strong>&rdquo;</p>
+      {% include 'blog/partials/ad_slot.html' with label="Search Top (728x90)" slot_id="search-top" %}
+      <div class="pulse-grid-3">
+        {% for article in articles %}{% include 'blog/partials/article_card.html' %}{% endfor %}
+      </div>
+    {% else %}
+      <div class="pulse-empty" style="text-align:center;padding:60px 0">
+        <div style="font-size:48px;margin-bottom:12px">&#128269;</div>
+        <p>No results for &ldquo;<strong>{{ query }}</strong>&rdquo;</p>
+        <a href="{% url 'blog:home' %}" class="pulse-btn" style="display:inline-block;margin-top:16px">&larr; Back to Home</a>
+      </div>
+    {% endif %}
+  {% else %}
+  <div class="pulse-empty" style="text-align:center;padding:60px 0">
+    <div style="font-size:48px;margin-bottom:12px">&#128269;</div>
+    <p style="color:var(--muted)">Type something to search PULSE</p>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

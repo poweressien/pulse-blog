@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="pulse-wrapper">
+  <div class="pulse-container">
+
+    {% if featured %}
+    <div class="pulse-hero" onclick="window.location='{{ featured.get_absolute_url }}'">
+      <div class="pulse-hero__body">
+        <div class="pulse-hero__badges">
+          <span class="pulse-badge pulse-badge--feat">&#9733; FEATURED</span>
+          {% if featured.is_breaking or featured.is_hot %}
+          <span class="pulse-badge pulse-badge--hot">&#128293; TRENDING</span>
+          {% endif %}
+        </div>
+        <div class="pulse-hero__eye">{{ featured.category.name|upper }} &middot; {{ featured.published_at|timesince }} ago</div>
+        <h1 class="pulse-hero__title">{{ featured.title }}</h1>
+        <p class="pulse-hero__excerpt">{{ featured.excerpt|truncatewords:30 }}</p>
+        <div class="pulse-hero__actions">
+          <a href="{{ featured.get_absolute_url }}" class="pulse-btn" onclick="event.stopPropagation()">READ NOW &rarr;</a>
+          <span class="pulse-hero__author">By {{ featured.author.get_full_name|default:featured.author.username|default:"Editor" }}</span>
+        </div>
+      </div>
+      <div class="pulse-hero__img">
+        {% if featured.featured_image %}
+          <img src="{{ featured.featured_image.url }}" alt="{{ featured.title }}">
+        {% else %}
+          <span class="pulse-hero__img-ph">&#128240;</span>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="pulse-tabs">
+      <button class="pulse-tab active" data-tab="nigeria">&#127469;&#127472; NAIJA</button>
+      <button class="pulse-tab" data-tab="africa">&#127758; AFRICA</button>
+      <button class="pulse-tab" data-tab="world">&#127760; WORLD</button>
+    </div>
+
+    {% include 'blog/partials/ad_slot.html' with label="Leaderboard (728x90)" slot_id="home-top" %}
+
+    <div class="pulse-layout">
+      <div class="pulse-main">
+
+        <div class="pulse-tab-panel active" data-panel="nigeria" id="nigeria">
+          {% if nigeria_articles %}
+            <div class="pulse-grid-3">
+              {% for article in nigeria_articles|slice:":3" %}{% include 'blog/partials/article_card.html' %}{% endfor %}
+            </div>
+            {% include 'blog/partials/ad_slot.html' with label="Mid Banner (728x90)" slot_id="mid-nigeria" %}
+            <div class="pulse-grid-2">
+              {% for article in nigeria_articles|slice:"3:" %}{% include 'blog/partials/article_card.html' with big=True %}{% endfor %}
+            </div>
+          {% else %}
+          <div class="pulse-empty">&#128240; No Nigerian articles yet. <a href="/admin/blog/article/add/">Add one in Admin &rarr;</a></div>
+          {% endif %}
+        </div>
+
+        <div class="pulse-tab-panel" data-panel="africa" id="africa">
+          {% if africa_articles %}
+            <div class="pulse-grid-3">
+              {% for article in africa_articles|slice:":3" %}{% include 'blog/partials/article_card.html' %}{% endfor %}
+            </div>
+            {% include 'blog/partials/ad_slot.html' with label="Mid Banner (728x90)" slot_id="mid-africa" %}
+            <div class="pulse-grid-2">
+              {% for article in africa_articles|slice:"3:" %}{% include 'blog/partials/article_card.html' with big=True %}{% endfor %}
+            </div>
+          {% else %}
+          <div class="pulse-empty">&#128240; No African articles yet. <a href="/admin/blog/article/add/">Add one in Admin &rarr;</a></div>
+          {% endif %}
+        </div>
+
+        <div class="pulse-tab-panel" data-panel="world" id="world">
+          {% if world_articles %}
+            <div class="pulse-grid-3">
+              {% for article in world_articles|slice:":3" %}{% include 'blog/partials/article_card.html' %}{% endfor %}
+            </div>
+            {% include 'blog/partials/ad_slot.html' with label="Mid Banner (728x90)" slot_id="mid-world" %}
+            <div class="pulse-grid-2">
+              {% for article in world_articles|slice:"3:" %}{% include 'blog/partials/article_card.html' with big=True %}{% endfor %}
+            </div>
+          {% else %}
+          <div class="pulse-empty">&#128240; No world articles yet. <a href="/admin/blog/article/add/">Add one in Admin &rarr;</a></div>
+          {% endif %}
+        </div>
+
+      </div>
+      {% include 'blog/partials/sidebar.html' %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}

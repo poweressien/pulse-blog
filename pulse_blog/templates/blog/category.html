@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}{{ category.name }} News &mdash; {{ SITE_NAME }}{% endblock %}
+{% block meta_desc %}Latest {{ category.name }} news on {{ SITE_NAME }}.{% endblock %}
+
+{% block content %}
+<div class="pulse-container" style="padding:24px 18px">
+
+  <div class="pulse-cat-hd" style="border-left:4px solid {{ category.color }}">
+    <span style="font-size:36px">{{ category.icon }}</span>
+    <div>
+      <h1 class="pulse-cat-hd__name">{{ category.name|upper }}</h1>
+      {% if category.description %}<p class="pulse-cat-hd__desc">{{ category.description }}</p>{% endif %}
+    </div>
+  </div>
+
+  {% include 'blog/partials/ad_slot.html' with label="Leaderboard (728x90)" slot_id="cat-top" %}
+
+  <div class="pulse-layout">
+    <div class="pulse-main">
+      {% if articles %}
+        <div class="pulse-grid-3">
+          {% for article in articles %}{% include 'blog/partials/article_card.html' %}{% endfor %}
+        </div>
+        {% if is_paginated %}
+        <div class="pulse-pagination">
+          {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="pulse-page-btn">&larr; Prev</a>{% endif %}
+          {% for n in page_obj.paginator.page_range %}
+            {% if page_obj.number == n %}<span class="pulse-page-btn active">{{ n }}</span>
+            {% elif n > page_obj.number|add:"-3" and n < page_obj.number|add:"3" %}<a href="?page={{ n }}" class="pulse-page-btn">{{ n }}</a>{% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="pulse-page-btn">Next &rarr;</a>{% endif %}
+        </div>
+        {% endif %}
+      {% else %}
+      <div class="pulse-empty">&#128240; No articles in this category yet.</div>
+      {% endif %}
+    </div>
+    {% include 'blog/partials/sidebar.html' %}
+  </div>
+
+</div>
+{% endblock %}

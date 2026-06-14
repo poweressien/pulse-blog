@@ -1,0 +1,16 @@
+{% if ADSENSE_CLIENT %}
+<div class="pulse-ad {{ slot_class|default:'pulse-ad--strip' }}">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="{{ ADSENSE_CLIENT }}"
+       data-ad-slot="{{ slot_id|default:'0000000000' }}"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+{% else %}
+<div class="pulse-ad {{ slot_class|default:'pulse-ad--strip' }}">
+  <p class="pulse-ad__label">Advertisement</p>
+  <p class="pulse-ad__hint">{{ label }} &mdash; set ADSENSE_CLIENT in .env to activate</p>
+</div>
+{% endif %}

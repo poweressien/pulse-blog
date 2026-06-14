@@ -1,0 +1,25 @@
+{% load humanize %}
+<article class="pulse-card {% if big %}pulse-card--big{% endif %}">
+  <a href="{{ article.get_absolute_url }}" class="pulse-card__img-link">
+    <div class="pulse-card__img-wrap" style="background:linear-gradient(135deg,{{ article.category.color }}22 0%,#07070D 100%)">
+      {% if article.featured_image %}
+        <img src="{{ article.featured_image.url }}" alt="{{ article.featured_image_alt|default:article.title }}" loading="lazy">
+      {% else %}
+        <span class="pulse-card__img-icon">&#128240;</span>
+      {% endif %}
+      <span class="pulse-card__tag" style="background:{{ article.category.color }};color:#000">{{ article.category.name|upper }}</span>
+      {% if article.is_hot %}<span class="pulse-card__hot">&#128293; HOT</span>{% endif %}
+      <div class="pulse-card__img-fade"></div>
+    </div>
+  </a>
+  <div class="pulse-card__body">
+    <h3 class="pulse-card__title">
+      <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+    </h3>
+    <p class="pulse-card__excerpt">{{ article.excerpt|truncatewords:18 }}</p>
+    <div class="pulse-card__meta">
+      <span class="pulse-card__author">{{ article.author.get_full_name|default:article.author.username|default:"Editor" }}</span>
+      <span class="pulse-card__time">{{ article.published_at|timesince }} ago</span>
+    </div>
+  </div>
+</article>

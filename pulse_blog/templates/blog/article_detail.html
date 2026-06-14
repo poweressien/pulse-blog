@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+{% block title %}{{ article.get_meta_title }} &mdash; {{ SITE_NAME }}{% endblock %}
+{% block meta_desc %}{{ article.get_meta_description }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ article.get_meta_title }}{% endblock %}
+{% block og_desc %}{{ article.get_meta_description }}{% endblock %}
+{% block og_image %}{% if article.featured_image %}{{ article.featured_image.url }}{% endif %}{% endblock %}
+
+{% block content %}
+<div class="pulse-detail-wrap">
+  <article class="pulse-article">
+
+    <header class="pulse-article__hd">
+      <div class="pulse-article__cat" style="color:{{ article.category.color }}">
+        <a href="{{ article.category.get_absolute_url }}" style="color:inherit">{{ article.category.icon }} {{ article.category.name|upper }}</a>
+      </div>
+      {% if article.is_breaking %}<span class="pulse-badge pulse-badge--hot" style="display:inline-block;margin-bottom:10px">&#128293; BREAKING</span>{% endif %}
+      <h1 class="pulse-article__title">{{ article.title }}</h1>
+      <p class="pulse-article__excerpt">{{ article.excerpt }}</p>
+      <div class="pulse-article__meta">
+        <span class="pulse-article__author">{{ article.author.get_full_name|default:article.author.username|default:"PULSE Editor" }}</span>
+        <span class="pulse-article__date">{{ article.published_at|date:"F j, Y" }}</span>
+        <span class="pulse-article__read">{{ article.read_time }}</span>
+        <span class="pulse-article__views">{{ article.views|intcomma }} views</span>
+      </div>
+    </header>
+
+    {% if article.featured_image %}
+    <div class="pulse-article__img">
+      <img src="{{ article.featured_image.url }}" alt="{{ article.featured_image_alt|default:article.title }}">
+    </div>
+    {% endif %}
+
+    {% include 'blog/partials/ad_slot.html' with label="Article Top (728x90)" slot_id="art-top" %}
+
+    <div class="pulse-article__content">{{ article.content|safe }}</div>
+
+    {% if article.tags.exists %}
+    <div class="pulse-article__tags">
+      {% for tag in article.tags.all %}<span class="pulse-article__tag"># {{ tag.name }}</span>{% endfor %}
+    </div>
+    {% endif %}
+
+    {% include 'blog/partials/ad_slot.html' with label="Article Bottom (728x90)" slot_id="art-bottom" %}
+
+    {% if related %}
+    <section class="pulse-related">
+      <h2 class="pulse-section-title">MORE FROM {{ article.category.name|upper }}</h2>
+      <div class="pulse-grid-2">
+        {% for a in related %}{% with article=a %}{% include 'blog/partials/article_card.html' %}{% endwith %}{% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+  </article>
+  {% include 'blog/partials/sidebar.html' %}
+</div>
+{% endblock %}

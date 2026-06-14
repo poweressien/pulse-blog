@@ -1,0 +1,20 @@
+{% include 'blog/partials/ad_slot.html' with label="Footer Leaderboard (728x90)" slot_id="footer-leader" slot_class="pulse-ad--strip" %}
+<footer class="pulse-footer">
+  <div class="pulse-container">
+    <div class="pulse-footer__inner">
+      <div>
+        <div class="pulse-footer__logo">{{ SITE_NAME }}</div>
+        <div class="pulse-footer__tag">Nigeria's trending news &middot; Africa's digital pulse</div>
+      </div>
+      <div class="pulse-footer__links">
+        <a href="#" class="pulse-footer__link">About</a>
+        <a href="#" class="pulse-footer__link">Advertise</a>
+        <a href="{% url 'blog:feed' %}" class="pulse-footer__link">RSS Feed</a>
+        <a href="/sitemap.xml" class="pulse-footer__link">Sitemap</a>
+        <a href="#" class="pulse-footer__link">Privacy</a>
+        <a href="#" class="pulse-footer__link">Contact</a>
+      </div>
+      <p class="pulse-footer__copy">&copy; 2026 {{ SITE_NAME }} Media &middot; All rights reserved</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,18 @@
+<div class="pulse-ticker" id="pulseTicker">
+  <div class="pulse-ticker__badge">
+    <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+    LIVE
+  </div>
+  <div class="pulse-ticker__track">
+    {% for item in ticker_items %}
+    <div class="pulse-ticker__item{% if forloop.first %} active{% endif %}">{{ item.text }}</div>
+    {% empty %}
+    <div class="pulse-ticker__item active">Welcome to {{ SITE_NAME }} — Africa's Trending Pulse</div>
+    {% endfor %}
+  </div>
+  <div class="pulse-ticker__dots">
+    {% for item in ticker_items %}
+    <button class="pulse-ticker__dot{% if forloop.first %} active{% endif %}" aria-label="Item {{ forloop.counter }}"></button>
+    {% endfor %}
+  </div>
+</div>
