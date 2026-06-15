@@ -86,8 +86,7 @@ SITE_NAME = 'PULSE'
 SITE_TAGLINE = "Africa's Trending Pulse"
 SITE_URL = config('SITE_URL', default='http://localhost:8000')
 ADSENSE_CLIENT = config('ADSENSE_CLIENT', default='')
-CSRF_TRUSTED_ORIGINS = config(
-    'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost:8000',
-    cast=lambda v: [s.strip() for s in v.split(',')]
-)
+CSRF_TRUSTED_ORIGINS = [
+    'https://pulse-blog.onrender.com',
+    'http://localhost:8000',
+]
